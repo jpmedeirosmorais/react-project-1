@@ -1,0 +1,10 @@
+.container {
+  max-width: 75rem;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #eee;
+  padding: 1.875rem;
+}
+
+
+
