@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Posts, Button } from "../../components";
+import { Posts, Button, TextInput } from "../../components";
 import "./styles.css";
 import { loadPosts } from "../../utils/load-posts";
 
@@ -11,6 +11,7 @@ export class Home extends Component {
       allPosts: [],
       page: 0,
       postsPerPage: 9,
+      searchValue: ''
     };
   }
 
@@ -27,7 +28,7 @@ export class Home extends Component {
       page,
       postsPerPage,
       allPosts,
-      posts
+      posts,
     } = this.state;
 
     const nextPage = page + postsPerPage;
@@ -35,21 +36,57 @@ export class Home extends Component {
     posts.push(...nextPosts);
 
     this.setState({ posts, page: nextPage });
+  }
 
+  handleChange = (e) => {
+    const { value } = e.target;
+    this.setState({ searchValue: value });
   }
 
   render() {
-    const { posts, page, postsPerPage, allPosts } = this.state;
+    const { posts, page, postsPerPage, allPosts, searchValue } = this.state;
     const noMorePosts = page + postsPerPage >= allPosts.length;
+    const filteredPosts = !!searchValue ? 
+    allPosts.filter(post => {
+      return post.title.toLowerCase().includes(searchValue.toLowerCase());
+    }) 
+    : 
+    posts;
+
     return (
       <section className="container">
-        <Posts posts={posts} />
-        <div className="button-container">
-          <Button 
-            text="Load more posts" 
-            onClick={this.loadMorePosts}
-            disabled={noMorePosts}
+        <div className='header'>
+          <h1 className="title">Welcome to page of posts</h1>
+
+          <h3>Apresentation</h3>
+          <p>
+            This is a page created with react.js using a fake api from JSON Placeholder.
+            Here you can search for posts and surf by the all 100 posts. And we are using a pagination too, in the bottom of the page you will find a button to load more posts if you want to see all posts, one by one.
+          </p>
+        </div>
+        <div className='search-container'>
+          {!!searchValue && <h1>Search value: {searchValue} </h1>}
+          <TextInput 
+            handleChange={this.handleChange} 
+            searchValue={searchValue} 
+            placeholder={'Type your search here'}
           />
+        </div>
+        
+        {filteredPosts.length >= 1 ? 
+          <Posts posts={filteredPosts} />
+          :
+          <h2>No posts found with the search</h2> 
+        }
+        
+        <div className="button-container">
+          {!searchValue && 
+            <Button 
+              text="Load more posts" 
+              onClick={this.loadMorePosts}
+              disabled={noMorePosts}
+            />
+          }
         </div>
       </section>
     );

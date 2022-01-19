@@ -12,5 +12,30 @@
   align-items: flex-end;
 }
 
+.search-container{
+  margin-bottom: 1.875rem;
+
+}
+.search-container h1 {
+  margin-bottom: 1.875rem;
+}
+
+.title{
+  text-align: center;
+  font-size: 4rem;
+  margin-bottom: 4rem;
+}
+
+.header{
+  margin-bottom: 4rem;
+}
+
+.header p {
+  font-size: 1.5rem;
+}
+
+.header h3{
+  font-size: 2rem;
+}
 
 
